@@ -1,0 +1,46 @@
+name: Deploy Next.js site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        # دستور build برای این پروژه خاص next build && next export است
+        run: npm run build 
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # پوشه خروجی برای Next.js "out" است
+          path: ./out
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
