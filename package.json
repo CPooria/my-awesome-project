@@ -1,7 +1,7 @@
 {
-  "name": "rootvc-cli-website",
+  "name": "my-portfolio-cli-website",
   "version": "0.1.0",
-  "description": "Root Ventures' awesome website",
+  "description": "My Portfolio' awesome website",
   "dependencies": {
     "aalib.js": "^2.0.0",
     "ai": "^3.0.18",
